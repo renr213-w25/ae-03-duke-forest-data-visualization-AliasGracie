@@ -78,10 +78,16 @@ Once again, data visualization skills to the rescue!
 ```{r}
 #| label: price-area
 
-# add code here
+ggplot(duke_forest, aes(x = area, y = price, colour = year_built)) + geom_point() +
+  geom_smooth(se = FALSE) +
+  labs( x = "House Size (m2)", 
+        y = "House Price ($)", 
+        title = "Duke Forest House Price Compared to Age and Size")
 ```
 
-Add narrative here...
+Claim 1: Generally, houses that are bigger tend to be more expensive, as seen by the line of best fit, which trends positively up and to the right. 
+Claim 2: Overall, there does not appear to be a strong trend that associates house age and price. Older houses and younger houses appear in the same places on thr graph. However, extremely old houses (around 1925) tend to be cheaper. 
+Claim 3: Big and expensive houses actually tend to be older than younger. There is one outlier, but aside from that, the biggest and most expensive houses are older, around 1975 in age.  
 
 ::: callout-important
 Now is a good time to render, commit, and push.
