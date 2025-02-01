@@ -1,5 +1,7 @@
 ---
 title: "AE 03: Duke Forest + data visualization"
+author: Gracie Carlaw
+format: pdf
 ---
 
 ```{r}
@@ -23,10 +25,11 @@ Luckily, you can help them answer this question with data visualization!
 
 ```{r}
 #| label: garage
-#| eval: false
+#| eval: True
 
-duke_forest |>
-  mutate(garage = if_else(str_detect(parking, "Garage"),   "Garage", "No garage"))
+duke_forest <- duke_forest %>% 
+  dplyr::mutate(garage = if_else(str_detect(parking, "Garage"),   "Garage", "No garage"))
+
 ```
 
 -   Then, facet by `garage` and use different colors for the two facets.
@@ -37,10 +40,17 @@ duke_forest |>
 ```{r}
 #| label: price-garage
 
-# add code here
+duke_forest %>%
+  ggplot(aes(x = price, color = garage, fill = garage)) + 
+  guides(color = FALSE, fill = FALSE) + 
+  geom_histogram(binwidth = 10000) + 
+  facet_grid("garage") + 
+  labs( x = "House Price ($)", 
+        y = "Number of Houses", 
+        title = "Duke Forest House Prices Compared to Garage Presence")
 ```
 
-Add narrative here...
+Presence of a garage does not appear to affect the price of a house. If anything, lack of a garage may lead to a slightly higher house value, and the most expensive house does not have a garage, but it is negligible as it is an outlier. 
 
 ::: callout-important
 Now is a good time to render, commit, and push.
@@ -67,10 +77,18 @@ Once again, data visualization skills to the rescue!
 ```{r}
 #| label: price-area
 
-# add code here
+ggplot(duke_forest, aes(x = area, y = price, colour = year_built)) + 
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs( x = "House Size (m2)", 
+        y = "House Price ($)", 
+        title = "Duke Forest House Price Compared to Age and Size",
+        color = "Year Built")
 ```
 
-Add narrative here...
+Claim 1: Generally, houses that are bigger tend to be more expensive, as seen by the line of best fit, which trends positively up and to the right. 
+Claim 2: Overall, there does not appear to be a strong trend that associates house age and price. Older houses and younger houses appear in the same places on thr graph. However, extremely old houses tend to be concentrated around the cheaper end. 
+Claim 3: Big and expensive houses actually tend to be older than younger. There is one outlier, but aside from that, the biggest and most expensive houses are older, around 1975 in age.  
 
 ::: callout-important
 Now is a good time to render, commit, and push.
